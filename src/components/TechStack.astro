@@ -1,0 +1,31 @@
+---
+import { techStack } from '../data/site';
+---
+
+<div class="tech-stack reveal" data-tech-stack>
+  <div class="tech-stack__track" data-tech-track>
+    {
+      [...techStack, ...techStack].map((tech) => (
+        <span class="tech-badge">{tech}</span>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  const track = document.querySelector('[data-tech-track]') as HTMLElement | null;
+  if (track && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let offset = 0;
+  const speed = 0.35;
+
+    const tick = () => {
+      offset -= speed;
+      const half = track.scrollWidth / 2;
+      if (Math.abs(offset) >= half) offset = 0;
+      track.style.transform = `translateX(${offset}px)`;
+      requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+  }
+</script>

@@ -1,0 +1,108 @@
+---
+import { site } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer__top container-wide">
+    <div class="footer__brand">
+      <p class="footer__name display">Alphagrid<br />Technology</p>
+      <p class="footer__tag">{site.footerTagline}</p>
+    </div>
+
+    <div class="footer__cols">
+      <div>
+        <p class="eyebrow">Navigate</p>
+        <ul>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/work">Work</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">Connect</p>
+        <ul>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></li>
+          <li><a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer__bottom container-wide">
+    <p>© {year} {site.name}. All rights reserved.</p>
+    <a href="/contact" class="footer__cta">Let's build →</a>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--line);
+    padding: clamp(3rem, 7vw, 5rem) 0 1.75rem;
+    margin-top: auto;
+  }
+
+  .footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2.5rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .footer__name {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    margin-bottom: 1rem;
+  }
+
+  .footer__tag {
+    color: var(--fg-muted);
+    max-width: 22rem;
+  }
+
+  .footer__cols {
+    display: flex;
+    gap: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .footer__cols .eyebrow {
+    margin-bottom: 1rem;
+  }
+
+  .footer__cols li + li {
+    margin-top: 0.55rem;
+  }
+
+  .footer__cols a {
+    color: var(--fg-muted);
+    transition: color 0.3s var(--ease-out);
+  }
+
+  .footer__cols a:hover {
+    color: var(--fg);
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--fg-dim);
+  }
+
+  .footer__cta {
+    color: var(--fg);
+    letter-spacing: 0.04em;
+  }
+
+  .footer__cta:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+</style>

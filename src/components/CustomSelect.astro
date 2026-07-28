@@ -1,0 +1,154 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  options: string[];
+}
+
+const { id, name, label, options } = Astro.props;
+const defaultValue = options[0];
+---
+
+<div class="field custom-select" data-custom-select>
+  <label id={`${id}-label`} for={`${id}-trigger`}>{label}</label>
+
+  <select id={`${id}-native`} name={name} class="custom-select__native" tabindex="-1" aria-hidden="true">
+    {
+      options.map((option) => (
+        <option value={option} selected={option === defaultValue}>
+          {option}
+        </option>
+      ))
+    }
+  </select>
+
+  <div class="custom-select__control">
+    <button
+      type="button"
+      id={`${id}-trigger`}
+      class="custom-select__trigger"
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      aria-labelledby={`${id}-label`}
+      data-custom-select-trigger
+    >
+      <span class="custom-select__value" data-custom-select-value>{defaultValue}</span>
+      <span class="custom-select__chevron" aria-hidden="true"></span>
+    </button>
+
+    <ul class="custom-select__list" role="listbox" hidden data-custom-select-list>
+      {
+        options.map((option) => (
+          <li
+            class:list={['custom-select__option', { 'is-selected': option === defaultValue }]}
+            role="option"
+            data-value={option}
+            aria-selected={option === defaultValue}
+            tabindex="-1"
+          >
+            {option}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<script>
+  function initCustomSelects() {
+    document.querySelectorAll('[data-custom-select]:not([data-custom-select-ready])').forEach((root) => {
+      root.setAttribute('data-custom-select-ready', '');
+      const native = root.querySelector('.custom-select__native') as HTMLSelectElement;
+      const trigger = root.querySelector('[data-custom-select-trigger]') as HTMLButtonElement;
+      const valueEl = root.querySelector('[data-custom-select-value]') as HTMLElement;
+      const list = root.querySelector('[data-custom-select-list]') as HTMLUListElement;
+      const options = Array.from(root.querySelectorAll('.custom-select__option')) as HTMLLIElement[];
+
+      if (!native || !trigger || !valueEl || !list) return;
+
+      const close = () => {
+        list.hidden = true;
+        trigger.setAttribute('aria-expanded', 'false');
+        root.classList.remove('is-open');
+      };
+
+      const open = () => {
+        list.hidden = false;
+        trigger.setAttribute('aria-expanded', 'true');
+        root.classList.add('is-open');
+        const selected = options.find((opt) => opt.classList.contains('is-selected'));
+        selected?.focus();
+      };
+
+      const select = (option: HTMLLIElement) => {
+        const value = option.dataset.value || '';
+        native.value = value;
+        valueEl.textContent = value;
+
+        options.forEach((opt) => {
+          const active = opt === option;
+          opt.classList.toggle('is-selected', active);
+          opt.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+
+        close();
+        trigger.focus();
+      };
+
+      trigger.addEventListener('click', () => {
+        if (list.hidden) open();
+        else close();
+      });
+
+      options.forEach((option) => {
+        option.addEventListener('click', () => select(option));
+
+        option.addEventListener('keydown', (e) => {
+          const index = options.indexOf(option);
+
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            select(option);
+          }
+
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            options[Math.min(index + 1, options.length - 1)]?.focus();
+          }
+
+          if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            options[Math.max(index - 1, 0)]?.focus();
+          }
+
+          if (e.key === 'Escape') {
+            e.preventDefault();
+            close();
+            trigger.focus();
+          }
+        });
+      });
+
+      trigger.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (list.hidden) open();
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!root.contains(e.target as Node)) close();
+      });
+
+      const form = root.closest('form');
+      form?.addEventListener('reset', () => {
+        const first = options[0];
+        if (first) select(first);
+      });
+    });
+  }
+
+  initCustomSelects();
+  document.addEventListener('astro:page-load', initCustomSelects);
+</script>

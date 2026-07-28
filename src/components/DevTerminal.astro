@@ -1,0 +1,34 @@
+---
+import { terminalLines } from '../data/site';
+---
+
+<div class="terminal reveal" data-terminal>
+  <div class="terminal__bar">
+    <span class="terminal__dot"></span>
+    <span class="terminal__dot"></span>
+    <span class="terminal__dot"></span>
+    <span class="terminal__title">alphagrid-cli</span>
+  </div>
+  <div class="terminal__body">
+    {
+      terminalLines.map((line) => (
+        <p class:list={['terminal__line', `terminal__line--${line.type}`]} data-terminal-line>
+          {line.text}
+        </p>
+      ))
+    }
+    <span class="terminal__cursor" data-terminal-cursor aria-hidden="true"></span>
+  </div>
+</div>
+
+<script>
+  const terminal = document.querySelector('[data-terminal]');
+  const lines = terminal?.querySelectorAll('[data-terminal-line]');
+  const cursor = terminal?.querySelector('[data-terminal-cursor]');
+
+  if (terminal && lines?.length && cursor) {
+    lines.forEach((line, i) => {
+      (line as HTMLElement).style.animationDelay = `${0.4 + i * 0.35}s`;
+    });
+  }
+</script>

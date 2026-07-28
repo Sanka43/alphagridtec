@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TechStack from '../components/TechStack.astro';
+import { engineering, services, site } from '../data/site';
+---
+
+<BaseLayout title="Services" description="Web development, custom software, APIs, UI/UX, and automation — Alphagrid Technology software engineering services.">
+  <header class="page-hero" data-page-hero>
+    <div class="container">
+      <p class="eyebrow eyebrow--mono">// services</p>
+      <h1>Software built to ship.</h1>
+      <p class="lead">Full-stack engineering for web apps, custom software, integrations, and digital products — from MVP to production.</p>
+    </div>
+  </header>
+
+  <TechStack />
+
+  <section class="section">
+    <div class="container">
+      <div class="service-list" data-stagger>
+        {
+          services.map((s) => (
+            <article class="service-item" data-stagger-item>
+              <span class="service-item__num">{s.num}</span>
+              <div class="service-item__body">
+                <h3>{s.title}</h3>
+                <p>{s.blurb}</p>
+                <div class="service-tags">
+                  {s.tags.map((tag) => <span class="service-tag">{tag}</span>)}
+                </div>
+              </div>
+              <span class="service-item__arrow" aria-hidden="true">→</span>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section process">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow eyebrow--mono">// delivery</p>
+        <h2>{engineering.headline}</h2>
+        <p class="lead">{engineering.lead}</p>
+      </div>
+      <div class="pipeline-grid" data-stagger>
+        {
+          engineering.pipeline.map((step) => (
+            <article data-stagger-item>
+              <span class="pipeline-step">{step.step}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="cta-band__inner container reveal">
+      <h2>Need a dev team?</h2>
+      <a href="/contact" class="btn btn--solid" data-magnetic>Brief us</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .process {
+    padding-top: 0;
+  }
+</style>

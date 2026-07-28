@@ -1,0 +1,196 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { projects, site } from '../data/site';
+---
+
+<BaseLayout title="Work" description={`Software projects and digital products built by ${site.name}.`}>
+  <header class="page-hero" data-page-hero>
+    <div class="container">
+      <p class="eyebrow eyebrow--mono">// portfolio</p>
+      <h1>Software we've shipped.</h1>
+      <p class="lead">Web platforms, dashboards, APIs, and custom tools built for real clients.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container-wide">
+      <div class="work-grid work-grid--page">
+        {
+          projects.map((p) => {
+            const Tag = p.url ? 'a' : 'article';
+            const linkProps = p.url
+              ? { href: p.url, target: '_blank', rel: 'noopener noreferrer' }
+              : {};
+            return (
+              <Tag class="work-card work-card--detail" {...linkProps}>
+                <div
+                  class:list={['work-card__media', p.image && 'work-card__media--has-image']}
+                  style={p.image ? `background-image: url(${p.image})` : undefined}
+                />
+                <div class="work-card__meta">
+                  <div class="work-card__extra">
+                    <div class="work-card__extra-inner">
+                      <p class="eyebrow">{p.tag}</p>
+                      <p class="work-card__summary">{p.summary}</p>
+                      {p.url && <span class="work-card__link">Visit site ↗</span>}
+                    </div>
+                  </div>
+                  <h3 class="work-card__title">{p.title}</h3>
+                </div>
+              </Tag>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="cta-band__inner container reveal">
+      <h2>Your project next.</h2>
+      <a href="/contact" class="btn btn--solid" data-magnetic>Start a conversation</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .work-grid--page {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .work-card--detail .work-card__meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    inset: 0;
+    padding: 1.35rem 1.4rem;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.92) 0%,
+      rgba(0, 0, 0, 0.55) 38%,
+      transparent 100%
+    );
+    transition: background 0.55s var(--ease-out);
+  }
+
+  .work-card--detail:hover .work-card__meta,
+  .work-card--detail:focus-within .work-card__meta {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.98) 0%,
+      rgba(0, 0, 0, 0.82) 52%,
+      rgba(0, 0, 0, 0.35) 78%,
+      transparent 100%
+    );
+  }
+
+  .work-card__title {
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .work-card__extra {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.55s var(--ease-out);
+  }
+
+  .work-card--detail:hover .work-card__extra,
+  .work-card--detail:focus-within .work-card__extra {
+    grid-template-rows: 1fr;
+  }
+
+  .work-card__extra-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .work-card__extra-inner .eyebrow {
+    margin-bottom: 0.35rem;
+    transform: translateY(1.25rem);
+    opacity: 0;
+    transition:
+      transform 0.55s var(--ease-out),
+      opacity 0.45s var(--ease-out);
+  }
+
+  .work-card__summary {
+    margin: 0 0 0.75rem;
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+    max-width: 36ch;
+    line-height: 1.5;
+    transform: translateY(1.25rem);
+    opacity: 0;
+    transition:
+      transform 0.55s var(--ease-out) 0.06s,
+      opacity 0.45s var(--ease-out) 0.06s;
+  }
+
+  .work-card__link {
+    display: inline-block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--fg);
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition:
+      transform 0.55s var(--ease-out) 0.12s,
+      opacity 0.45s var(--ease-out) 0.12s;
+  }
+
+  .work-card--detail:hover .work-card__extra-inner .eyebrow,
+  .work-card--detail:hover .work-card__summary,
+  .work-card--detail:hover .work-card__link,
+  .work-card--detail:focus-within .work-card__extra-inner .eyebrow,
+  .work-card--detail:focus-within .work-card__summary,
+  .work-card--detail:focus-within .work-card__link {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .work-card--detail:hover .work-card__link,
+  .work-card--detail:focus-within .work-card__link {
+    opacity: 0.85;
+  }
+
+  @media (max-width: 1100px) {
+    .work-grid--page {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .work-grid--page {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (hover: none) {
+    .work-card--detail .work-card__extra {
+      grid-template-rows: 1fr;
+    }
+
+    .work-card--detail .work-card__extra-inner .eyebrow,
+    .work-card--detail .work-card__summary,
+    .work-card--detail .work-card__link {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .work-card--detail .work-card__link {
+      opacity: 0.85;
+    }
+
+    .work-card--detail .work-card__meta {
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.98) 0%,
+        rgba(0, 0, 0, 0.82) 52%,
+        rgba(0, 0, 0, 0.35) 78%,
+        transparent 100%
+      );
+    }
+  }
+</style>

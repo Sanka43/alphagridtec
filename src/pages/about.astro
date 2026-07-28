@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { about, site } from '../data/site';
+---
+
+<BaseLayout title="About" description={`About ${site.name} — a software engineering and digital product studio in Colombo, Sri Lanka.`}>
+  <header class="page-hero" data-page-hero>
+    <div class="container">
+      <p class="eyebrow eyebrow--mono">// about</p>
+      <h1>{about.headline}</h1>
+      <p class="lead">{about.lead}</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="about-split">
+        <div class="prose-block reveal">
+          <h2>Who we are</h2>
+          {about.story.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+
+        <div class="stat-row reveal">
+          {
+            about.stats.map((stat) => (
+              <div>
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section values-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow eyebrow--mono">// principles</p>
+        <h2>How we show up.</h2>
+      </div>
+
+      <div class="value-grid" data-stagger>
+        {
+          about.values.map((value) => (
+            <article data-stagger-item>
+              <h3>{value.title}</h3>
+              <p>{value.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="cta-band__inner container reveal">
+      <h2>Let's build your product.</h2>
+      <a href="/contact" class="btn btn--solid" data-magnetic>Get in touch</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-split {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .values-section {
+    padding-top: 0;
+  }
+</style>

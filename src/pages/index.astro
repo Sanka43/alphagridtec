@@ -1,0 +1,279 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DevTerminal from '../components/DevTerminal.astro';
+import HeroScene from '../components/HeroScene.astro';
+import TechStack from '../components/TechStack.astro';
+import { engineering, projects, services, site } from '../data/site';
+
+const featuredWork = projects.slice(0, 3);
+---
+
+<BaseLayout title={site.name} description={`${site.name} — software engineering and digital product studio based in Colombo, Sri Lanka.`}>
+  <section class="hero" data-hero>
+    <HeroScene />
+
+    <div class="hero__content site-shell">
+      <div class="hero__layout">
+        <div class="hero__text" data-hero-text>
+          <p class="hero__eyebrow eyebrow eyebrow--mono" data-hero-eyebrow>Software Engineering Studio</p>
+          <h1 class="hero__brand display" data-hero-brand>
+            <span class="hero__brand-line">Alphagrid</span>
+            <span class="hero__brand-line hero__brand-line--dim">Technology</span>
+          </h1>
+          <p class="hero__line" data-hero-line>{site.tagline}</p>
+          <div class="btn-group" data-hero-cta>
+            <a href="/contact" class="btn btn--solid" data-magnetic>Start a project</a>
+            <a href="/work" class="btn btn--ghost" data-magnetic>View work</a>
+          </div>
+        </div>
+
+        <div class="hero__terminal" data-hero-terminal>
+          <DevTerminal />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <TechStack />
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow eyebrow--mono">// services</p>
+        <h2>Built by engineers. Designed for scale.</h2>
+        <p class="lead">Web apps, custom software, APIs, and automation — from architecture to production deployment.</p>
+      </div>
+
+      <div class="service-list" data-stagger>
+        {
+          services.map((s) => (
+            <a href="/services" class="service-item" data-stagger-item>
+              <span class="service-item__num">{s.num}</span>
+              <div class="service-item__body">
+                <h3>{s.title}</h3>
+                <p>{s.blurb}</p>
+                <div class="service-tags">
+                  {s.tags.map((tag) => <span class="service-tag">{tag}</span>)}
+                </div>
+              </div>
+              <span class="service-item__arrow" aria-hidden="true">↗</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--engineering">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow eyebrow--mono">// process</p>
+        <h2>{engineering.headline}</h2>
+        <p class="lead">{engineering.lead}</p>
+      </div>
+
+      <div class="pipeline-grid" data-stagger>
+        {
+          engineering.pipeline.map((step) => (
+            <article data-stagger-item>
+              <span class="pipeline-step">{step.step}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="metrics-row reveal">
+        {
+          engineering.metrics.map((m) => (
+            <div>
+              <strong>{m.value}</strong>
+              <span>{m.label}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--work">
+    <div class="container-wide">
+      <div class="section-head reveal">
+        <p class="eyebrow eyebrow--mono">// portfolio</p>
+        <h2>Products we've shipped.</h2>
+        <p class="lead">Platforms, dashboards, and web applications built for real businesses.</p>
+      </div>
+
+      <div class="work-grid">
+        {
+          featuredWork.map((item) => (
+            <a
+              href={item.url ?? '/work'}
+              class="work-card"
+              {...(item.url ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            >
+              <div
+                class:list={['work-card__media', item.image && 'work-card__media--has-image']}
+                style={item.image ? `background-image: url(${item.image})` : undefined}
+              />
+              <div class="work-card__meta">
+                <p class="eyebrow">{item.tag}</p>
+                <h3>{item.title}</h3>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="section-cta reveal">
+        <a href="/work" class="btn btn--ghost" data-magnetic>See all projects</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="cta-band__inner container reveal">
+      <h2>Ready to build?</h2>
+      <a href="/contact" class="btn btn--solid" data-magnetic>Talk to our team</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: calc(100svh - var(--nav-h));
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    isolation: isolate;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 2;
+    padding-block: clamp(2rem, 5vw, 3rem);
+    pointer-events: none;
+  }
+
+  .hero__layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .hero__text {
+    pointer-events: auto;
+    flex: 1 1 auto;
+    max-width: 36rem;
+    min-width: 0;
+  }
+
+  .hero__terminal {
+    pointer-events: auto;
+    flex: 0 0 auto;
+    width: min(360px, 38%);
+    align-self: center;
+    position: relative;
+    z-index: 3;
+  }
+
+  .hero__eyebrow {
+    margin-bottom: 1.1rem;
+  }
+
+  .hero__brand {
+    font-size: clamp(3rem, 9.5vw, 6.75rem);
+    margin: 0 0 1.25rem;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  .hero__brand-line {
+    display: block;
+    margin: 0;
+    padding: 0;
+    text-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  }
+
+  .hero__brand-line--dim {
+    color: rgba(245, 245, 245, 0.88);
+    margin-top: 0.05em;
+  }
+
+  .hero__line {
+    font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+    color: var(--fg-muted);
+    max-width: 32rem;
+    margin: 0 0 1.85rem;
+    line-height: 1.65;
+  }
+
+  .hero .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero .btn-group .btn {
+    min-width: 10.5rem;
+    min-height: 3rem;
+    padding-block: 0.9rem;
+  }
+
+  .section--engineering {
+    padding-top: 0;
+  }
+
+  @media (max-height: 720px) {
+    .hero__content {
+      padding-block: 2rem;
+    }
+
+    .hero__brand {
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      margin-bottom: 0.85rem;
+    }
+
+    .hero__line {
+      margin-bottom: 1.35rem;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .hero__layout {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 2rem;
+    }
+
+    .hero__terminal {
+      width: 100%;
+      max-width: 24rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero .btn-group {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .hero .btn-group .btn {
+      width: 100%;
+      min-width: 0;
+    }
+  }
+
+  .section--work {
+    padding-top: 0;
+  }
+
+  .section-cta {
+    margin-top: 2.5rem;
+  }
+</style>
