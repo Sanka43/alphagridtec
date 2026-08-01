@@ -247,10 +247,24 @@ const featuredWork = projects.slice(0, 3);
   }
 
   @media (max-width: 900px) {
+    .hero {
+      min-height: auto;
+      place-items: start;
+      padding-block: clamp(2.5rem, 8vw, 4rem) clamp(2rem, 6vw, 3rem);
+    }
+
     .hero__layout {
       flex-direction: column;
       align-items: stretch;
       gap: 2rem;
+    }
+
+    .hero__text {
+      max-width: none;
+    }
+
+    .hero__brand {
+      font-size: clamp(2.75rem, 12vw, 4.5rem);
     }
 
     .hero__terminal {
@@ -268,6 +282,14 @@ const featuredWork = projects.slice(0, 3);
     .hero .btn-group .btn {
       width: 100%;
       min-width: 0;
+    }
+
+    .hero__terminal {
+      max-width: none;
+    }
+
+    .section-cta .btn {
+      width: 100%;
     }
   }
 

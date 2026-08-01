@@ -7,6 +7,9 @@ gsap.registerPlugin(ScrollTrigger);
 const reduceMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+const canHover = () =>
+  window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
 export function initMotion() {
   if (reduceMotion()) {
     document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
@@ -94,7 +97,9 @@ export function initMotion() {
     });
   });
 
-  // Magnetic buttons
+  // Magnetic buttons — desktop pointer only
+  if (!canHover()) return;
+
   document.querySelectorAll('[data-magnetic]').forEach((btn) => {
     const el = btn as HTMLElement;
     const strength = 28;

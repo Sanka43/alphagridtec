@@ -56,7 +56,7 @@ const installSteps = [
           Free Android download. Built by {site.shortName}.
         </p>
         <div class="btn-group kim-hero__cta">
-          <a href={apkPath} class="btn btn--solid" download data-magnetic>
+          <a href="#install" class="btn btn--solid" data-magnetic>
             Download for Android
           </a>
           <a href="/contact" class="btn btn--ghost" data-magnetic>Ask about deployment</a>
@@ -104,7 +104,7 @@ const installSteps = [
     </div>
   </section>
 
-  <section class="section kim-install">
+  <section id="install" class="section kim-install">
     <div class="container">
       <div class="section-head reveal">
         <p class="eyebrow eyebrow--mono">// install</p>
@@ -114,17 +114,19 @@ const installSteps = [
           If Play Protect shows a warning, use <strong>Install anyway</strong> — do not turn Play Protect off.
         </p>
       </div>
-      <div class="pipeline-grid" data-stagger>
+      <ol class="kim-steps" data-stagger>
         {
           installSteps.map((s) => (
-            <article data-stagger-item>
-              <span class="pipeline-step">{s.step}</span>
-              <h3>{s.title}</h3>
-              <p>{s.text}</p>
-            </article>
+            <li class="kim-step" data-stagger-item>
+              <span class="kim-step__index" aria-hidden="true">{s.step}</span>
+              <div class="kim-step__body">
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
+              </div>
+            </li>
           ))
         }
-      </div>
+      </ol>
       <div class="kim-download-row reveal">
         <a href={apkPath} class="btn btn--solid" download data-magnetic>
           Download KIM v{appVersion}
@@ -231,15 +233,93 @@ const installSteps = [
     padding-top: 0;
   }
 
+  .kim-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    counter-reset: none;
+    position: relative;
+  }
+
+  .kim-steps::before {
+    content: '';
+    position: absolute;
+    top: 1.15rem;
+    left: calc(16.666% + 0.75rem);
+    right: calc(16.666% + 0.75rem);
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--line-strong) 12%,
+      var(--line-strong) 88%,
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  .kim-step {
+    position: relative;
+    padding: 0 clamp(1rem, 2.5vw, 1.75rem) 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .kim-step:first-child {
+    padding-left: 0;
+  }
+
+  .kim-step:last-child {
+    padding-right: 0;
+  }
+
+  .kim-step__index {
+    position: relative;
+    z-index: 1;
+    align-self: flex-start;
+    display: inline-grid;
+    place-items: center;
+    min-width: 2.35rem;
+    height: 2.35rem;
+    padding: 0 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--fg);
+    background: var(--bg);
+    border: 1px solid var(--line-strong);
+  }
+
+  .kim-step__body h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    letter-spacing: -0.03em;
+    line-height: 1.25;
+    margin-bottom: 0.7rem;
+  }
+
+  .kim-step__body p {
+    color: var(--fg-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    max-width: 22rem;
+  }
+
   .kim-download-row {
-    margin-top: 2.5rem;
+    margin-top: 2.75rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 1rem 1.5rem;
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     .kim-hero__grid {
       grid-template-columns: 1fr;
     }
@@ -249,8 +329,68 @@ const installSteps = [
       justify-content: flex-start;
     }
 
+    .kim-hero__icon {
+      width: min(140px, 38vw);
+    }
+
     .kim-features {
       grid-template-columns: 1fr;
+    }
+
+    .kim-steps {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding-left: 1.15rem;
+    }
+
+    .kim-steps::before {
+      top: 0.4rem;
+      bottom: 0.4rem;
+      left: 0;
+      right: auto;
+      width: 1px;
+      height: auto;
+      background: var(--line-strong);
+    }
+
+    .kim-step {
+      padding: 0 0 1.75rem 1.5rem;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .kim-step:last-child {
+      padding-bottom: 0;
+    }
+
+    .kim-step__index {
+      flex-shrink: 0;
+      margin-left: -2.35rem;
+    }
+
+    .kim-step__body p {
+      max-width: none;
+    }
+
+    .kim-download-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.85rem;
+    }
+
+    .kim-download-row .btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .kim-hero__cta {
+      width: 100%;
+    }
+
+    .kim-hero__cta .btn {
+      width: 100%;
     }
   }
 </style>

@@ -224,40 +224,93 @@
   }
 
   @media (max-width: 900px) {
+    .hero-scene {
+      background: radial-gradient(ellipse 90% 60% at 50% 28%, #121212 0%, #050505 55%, #000 100%);
+    }
+
     .hero-scene__perspective {
-      perspective-origin: 50% 38%;
+      perspective-origin: 50% 32%;
     }
 
     .hero-cube {
-      left: 68%;
-      top: 30%;
-      width: 100px;
-      height: 100px;
-      transform: translate3d(-50%, -50%, 80px) rotateX(-14deg) rotateY(22deg);
+      left: 78%;
+      top: 22%;
+      width: 88px;
+      height: 88px;
+      transform: translate3d(-50%, -50%, 60px) rotateX(-14deg) rotateY(22deg);
+      opacity: 0.7;
     }
 
-    .hero-cube__face--front  { transform: translateZ(50px); }
-    .hero-cube__face--back   { transform: rotateY(180deg) translateZ(50px); }
-    .hero-cube__face--right  { transform: rotateY(90deg) translateZ(50px); }
-    .hero-cube__face--left   { transform: rotateY(-90deg) translateZ(50px); }
-    .hero-cube__face--top    { transform: rotateX(90deg) translateZ(50px); }
-    .hero-cube__face--bottom { transform: rotateX(-90deg) translateZ(50px); }
+    .hero-cube__face--front  { transform: translateZ(44px); }
+    .hero-cube__face--back   { transform: rotateY(180deg) translateZ(44px); }
+    .hero-cube__face--right  { transform: rotateY(90deg) translateZ(44px); }
+    .hero-cube__face--left   { transform: rotateY(-90deg) translateZ(44px); }
+    .hero-cube__face--top    { transform: rotateX(90deg) translateZ(44px); }
+    .hero-cube__face--bottom { transform: rotateX(-90deg) translateZ(44px); }
 
     .hero-ring {
-      width: 200px;
-      height: 200px;
-      left: 68%;
+      width: 170px;
+      height: 170px;
+      left: 78%;
+      top: 22%;
+      opacity: 0.65;
     }
 
     .hero-diamond {
-      left: 75%;
-      top: 52%;
-      width: 64px;
-      height: 64px;
+      left: 82%;
+      top: 42%;
+      width: 52px;
+      height: 52px;
+      opacity: 0.7;
+    }
+
+    .hero-node--a {
+      left: 18%;
+      top: 18%;
+    }
+
+    .hero-node--b {
+      left: 88%;
+      top: 14%;
     }
 
     .hero-node--c {
       display: none;
+    }
+
+    .hero-scene__glow {
+      right: 5%;
+      top: 8%;
+      width: min(70vw, 320px);
+      height: min(70vw, 320px);
+      opacity: 0.7;
+    }
+
+    .hero-scene__vignette {
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, transparent 28%, rgba(0, 0, 0, 0.55) 100%),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.2) 55%, transparent 85%);
+    }
+
+    .hero-scene__floor {
+      top: 62%;
+      opacity: 0.55;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero-cube,
+    .hero-ring {
+      left: 85%;
+    }
+
+    .hero-diamond {
+      left: 88%;
+      top: 38%;
+    }
+
+    .hero-scene__scanline {
+      opacity: 0.2;
     }
   }
 

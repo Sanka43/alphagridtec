@@ -175,6 +175,43 @@ import { projects, site } from '../data/site';
     .work-grid--page {
       grid-template-columns: 1fr;
     }
+
+    .work-card--detail {
+      aspect-ratio: 16 / 12;
+    }
+
+    .work-card--detail .work-card__meta {
+      padding: 1.15rem 1.2rem;
+    }
+
+    .work-card__summary {
+      font-size: 0.85rem;
+      max-width: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .work-card--detail {
+      aspect-ratio: auto;
+      min-height: 16rem;
+    }
+
+    .work-card--detail .work-card__meta {
+      position: relative;
+      inset: auto;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.92) 0%,
+        rgba(0, 0, 0, 0.75) 70%,
+        rgba(0, 0, 0, 0.45) 100%
+      );
+      padding-top: 3.5rem;
+    }
+
+    .work-card--detail .work-card__media {
+      position: absolute;
+      inset: 0;
+    }
   }
 
   @media (hover: none) {
@@ -200,6 +237,17 @@ import { projects, site } from '../data/site';
         rgba(0, 0, 0, 0.82) 52%,
         rgba(0, 0, 0, 0.35) 78%,
         transparent 100%
+      );
+    }
+  }
+
+  @media (hover: none) and (max-width: 640px) {
+    .work-card--detail .work-card__meta {
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.95) 0%,
+        rgba(0, 0, 0, 0.8) 65%,
+        rgba(0, 0, 0, 0.5) 100%
       );
     }
   }
