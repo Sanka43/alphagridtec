@@ -18,8 +18,14 @@ import { projects, site } from '../data/site';
         {
           projects.map((p) => {
             const Tag = p.url ? 'a' : 'article';
+            const external = Boolean(p.url?.startsWith('http'));
             const linkProps = p.url
-              ? { href: p.url, target: '_blank', rel: 'noopener noreferrer' }
+              ? {
+                  href: p.url,
+                  ...(external
+                    ? { target: '_blank', rel: 'noopener noreferrer' }
+                    : {}),
+                }
               : {};
             return (
               <Tag class="work-card work-card--detail" {...linkProps}>
@@ -32,7 +38,11 @@ import { projects, site } from '../data/site';
                     <div class="work-card__extra-inner">
                       <p class="eyebrow">{p.tag}</p>
                       <p class="work-card__summary">{p.summary}</p>
-                      {p.url && <span class="work-card__link">Visit site ↗</span>}
+                      {p.url && (
+                        <span class="work-card__link">
+                          {external ? 'Visit site ↗' : 'View product →'}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <h3 class="work-card__title">{p.title}</h3>

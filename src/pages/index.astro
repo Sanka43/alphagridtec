@@ -111,7 +111,9 @@ const featuredWork = projects.slice(0, 3);
             <a
               href={item.url ?? '/work'}
               class="work-card"
-              {...(item.url ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              {...(item.url?.startsWith('http')
+                ? { target: '_blank', rel: 'noopener noreferrer' }
+                : {})}
             >
               <div
                 class:list={['work-card__media', item.image && 'work-card__media--has-image']}

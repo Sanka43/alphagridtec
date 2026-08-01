@@ -1,0 +1,255 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+
+const appVersion = '1.0.0';
+const apkPath = '/downloads/kim-v1.0.0.apk';
+const apkSizeMb = '63';
+
+const kitchenFeatures = [
+  'Inventory CRUD with reorder levels and low-stock alerts',
+  'Link suppliers via invite codes',
+  'Create & track orders; confirm delivery to update stock',
+  'Reports and CSV export',
+  'In-app realtime notifications',
+  'IoT load-cell scales — pair ESP32 bins, live weight, auto stock sync',
+];
+
+const supplierFeatures = [
+  'Product catalog management',
+  'Accept, reject, or mark orders delivered',
+  'Order history, reports, and CSV export',
+  'Share invite codes with kitchens',
+];
+
+const installSteps = [
+  {
+    step: '01',
+    title: 'Download the APK',
+    text: 'Tap Download for Android below. The file saves to your device Downloads folder.',
+  },
+  {
+    step: '02',
+    title: 'Allow install from unknown apps',
+    text: 'Open the downloaded file. If prompted, enable Install unknown apps for your browser or Files app in Settings.',
+  },
+  {
+    step: '03',
+    title: 'Install & open KIM',
+    text: 'Confirm install, then open Kitchen Inventory Manager and create your kitchen or supplier account.',
+  },
+];
+---
+
+<BaseLayout
+  title="KIM — Kitchen Inventory Manager"
+  description="Download KIM for Android — kitchen inventory, supplier ordering, and IoT scale sync. Built by Alphagrid Technology."
+>
+  <header class="page-hero kim-hero" data-page-hero>
+    <div class="container kim-hero__grid">
+      <div>
+        <p class="eyebrow eyebrow--mono">// product</p>
+        <h1>KIM</h1>
+        <p class="kim-hero__subtitle">Kitchen Inventory Manager</p>
+        <p class="lead">
+          Mobile inventory and supplier ordering for kitchens — with optional IoT load-cell scales.
+          Free Android download. Built by {site.shortName}.
+        </p>
+        <div class="btn-group kim-hero__cta">
+          <a href={apkPath} class="btn btn--solid" download data-magnetic>
+            Download for Android
+          </a>
+          <a href="/contact" class="btn btn--ghost" data-magnetic>Ask about deployment</a>
+        </div>
+        <p class="kim-meta">
+          v{appVersion} · APK · ~{apkSizeMb} MB · Android
+        </p>
+      </div>
+      <div class="kim-hero__icon-wrap reveal">
+        <img
+          src="/images/kim/app-icon.png"
+          alt="KIM app icon"
+          class="kim-hero__icon"
+          width="180"
+          height="180"
+        />
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow eyebrow--mono">// features</p>
+        <h2>Built for kitchens and suppliers.</h2>
+        <p class="lead">One app, two roles — inventory on the kitchen side, catalog and fulfilment for suppliers.</p>
+      </div>
+
+      <div class="kim-features" data-stagger>
+        <article class="kim-feature-card" data-stagger-item>
+          <p class="eyebrow">Kitchen</p>
+          <h3>Run stock with confidence</h3>
+          <ul>
+            {kitchenFeatures.map((f) => <li>{f}</li>)}
+          </ul>
+        </article>
+        <article class="kim-feature-card" data-stagger-item>
+          <p class="eyebrow">Supplier</p>
+          <h3>Fulfil orders cleanly</h3>
+          <ul>
+            {supplierFeatures.map((f) => <li>{f}</li>)}
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section kim-install">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow eyebrow--mono">// install</p>
+        <h2>Install on Android in three steps.</h2>
+        <p class="lead">
+          KIM is distributed as a direct APK (not Play Store). You’ll need to allow installs from your browser once.
+        </p>
+      </div>
+      <div class="pipeline-grid" data-stagger>
+        {
+          installSteps.map((s) => (
+            <article data-stagger-item>
+              <span class="pipeline-step">{s.step}</span>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </article>
+          ))
+        }
+      </div>
+      <div class="kim-download-row reveal">
+        <a href={apkPath} class="btn btn--solid" download data-magnetic>
+          Download KIM v{appVersion}
+        </a>
+        <p class="kim-meta">~{apkSizeMb} MB · Requires Android device</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="cta-band__inner container reveal">
+      <h2>Need help rolling out KIM?</h2>
+      <a href="/contact" class="btn btn--solid" data-magnetic>Talk to us</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .kim-hero__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .kim-hero__subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--fg-muted);
+    margin: -0.35rem 0 1.25rem;
+  }
+
+  .kim-hero__cta {
+    margin-top: 1.75rem;
+  }
+
+  .kim-meta {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--fg-dim);
+  }
+
+  .kim-hero__icon-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  .kim-hero__icon {
+    width: min(180px, 42vw);
+    height: auto;
+    border-radius: 1.5rem;
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+  }
+
+  .kim-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .kim-feature-card {
+    border: 1px solid var(--line);
+    background: var(--bg-elevated);
+    padding: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .kim-feature-card .eyebrow {
+    margin-bottom: 0.75rem;
+  }
+
+  .kim-feature-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.25rem;
+  }
+
+  .kim-feature-card li {
+    position: relative;
+    padding-left: 1.1rem;
+    color: var(--fg-muted);
+    font-size: 0.95rem;
+  }
+
+  .kim-feature-card li + li {
+    margin-top: 0.65rem;
+  }
+
+  .kim-feature-card li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 0.35rem;
+    height: 0.35rem;
+    background: var(--fg);
+  }
+
+  .kim-install {
+    padding-top: 0;
+  }
+
+  .kim-download-row {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+  }
+
+  @media (max-width: 800px) {
+    .kim-hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .kim-hero__icon-wrap {
+      order: -1;
+      justify-content: flex-start;
+    }
+
+    .kim-features {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

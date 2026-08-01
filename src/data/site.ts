@@ -100,6 +100,14 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    title: 'KIM',
+    tag: 'Mobile · Firebase',
+    summary:
+      'Kitchen Inventory Manager — Flutter Android app for inventory, supplier orders, and IoT load-cell scale sync. Free APK download.',
+    image: '/images/kim/app-icon.png',
+    url: '/kim',
+  },
+  {
     title: 'Gift Sri Lanka',
     tag: 'E-commerce · API',
     summary:
