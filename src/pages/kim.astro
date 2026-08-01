@@ -30,13 +30,13 @@ const installSteps = [
   },
   {
     step: '02',
-    title: 'Allow install from unknown apps',
-    text: 'Open the downloaded file. If prompted, enable Install unknown apps for your browser or Files app in Settings.',
+    title: 'Allow install from this source',
+    text: 'Open the downloaded file. If Android asks, allow Install unknown apps for your browser or Files app only — you do not need to turn off Play Protect.',
   },
   {
     step: '03',
-    title: 'Install & open KIM',
-    text: 'Confirm install, then open Kitchen Inventory Manager and create your kitchen or supplier account.',
+    title: 'If Play Protect warns — Install anyway',
+    text: 'Play Protect may flag apps not from the Play Store. Tap More details → Install anyway (or Install without scanning). Leave Play Protect ON. Then open KIM and create your account.',
   },
 ];
 ---
@@ -110,7 +110,8 @@ const installSteps = [
         <p class="eyebrow eyebrow--mono">// install</p>
         <h2>Install on Android in three steps.</h2>
         <p class="lead">
-          KIM is distributed as a direct APK (not Play Store). You’ll need to allow installs from your browser once.
+          KIM is a direct APK download (not Play Store yet). Allow installs from your browser once.
+          If Play Protect shows a warning, use <strong>Install anyway</strong> — do not turn Play Protect off.
         </p>
       </div>
       <div class="pipeline-grid" data-stagger>
