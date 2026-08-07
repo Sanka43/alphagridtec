@@ -3,7 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { about, site } from '../data/site';
 ---
 
-<BaseLayout title="About" description={`About ${site.name} — a software engineering and digital product studio in Colombo, Sri Lanka.`}>
+<BaseLayout
+  title="About"
+  description={`About ${site.name} — free APK, IPA, jailbreak, and Windows tools catalog based in Colombo, Sri Lanka.`}
+>
   <header class="page-hero" data-page-hero>
     <div class="container">
       <p class="eyebrow eyebrow--mono">// about</p>
@@ -56,8 +59,8 @@ import { about, site } from '../data/site';
 
   <section class="cta-band">
     <div class="cta-band__inner container reveal">
-      <h2>Let's build your product.</h2>
-      <a href="/contact" class="btn btn--solid" data-magnetic>Get in touch</a>
+      <h2>Browse the catalog.</h2>
+      <a href="/tools" class="btn btn--solid" data-magnetic>See all tools</a>
     </div>
   </section>
 </BaseLayout>

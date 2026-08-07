@@ -6,4 +6,9 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
+  redirects: {
+    '/services': '/tools',
+    '/work': '/tools',
+    '/kim': '/tools/kim',
+  },
 });

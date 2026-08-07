@@ -3,27 +3,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import DevTerminal from '../components/DevTerminal.astro';
 import HeroScene from '../components/HeroScene.astro';
 import TechStack from '../components/TechStack.astro';
-import { engineering, projects, services, site } from '../data/site';
+import { categories, categoryLabel, engineering, getFeaturedTools, site } from '../data/site';
 
-const featuredWork = projects.slice(0, 3);
+const featuredTools = getFeaturedTools().slice(0, 3);
 ---
 
-<BaseLayout title={site.name} description={`${site.name} — software engineering and digital product studio based in Colombo, Sri Lanka.`}>
+<BaseLayout
+  title={site.name}
+  description={`${site.name} — free APK, IPA, jailbreak, and Windows tools. Direct downloads from Colombo, Sri Lanka.`}
+>
   <section class="hero" data-hero>
     <HeroScene />
 
     <div class="hero__content site-shell">
       <div class="hero__layout">
         <div class="hero__text" data-hero-text>
-          <p class="hero__eyebrow eyebrow eyebrow--mono" data-hero-eyebrow>Software Engineering Studio</p>
+          <p class="hero__eyebrow eyebrow eyebrow--mono" data-hero-eyebrow>Tools Catalog</p>
           <h1 class="hero__brand display" data-hero-brand>
             <span class="hero__brand-line">Alphagrid</span>
             <span class="hero__brand-line hero__brand-line--dim">Technology</span>
           </h1>
           <p class="hero__line" data-hero-line>{site.tagline}</p>
           <div class="btn-group" data-hero-cta>
-            <a href="/contact" class="btn btn--solid" data-magnetic>Start a project</a>
-            <a href="/work" class="btn btn--ghost" data-magnetic>View work</a>
+            <a href="/tools" class="btn btn--solid" data-magnetic>Browse tools</a>
+            <a href="/contact" class="btn btn--ghost" data-magnetic>Get support</a>
           </div>
         </div>
 
@@ -39,21 +42,21 @@ const featuredWork = projects.slice(0, 3);
   <section class="section">
     <div class="container">
       <div class="section-head reveal">
-        <p class="eyebrow eyebrow--mono">// services</p>
-        <h2>Built by engineers. Designed for scale.</h2>
-        <p class="lead">Web apps, custom software, APIs, and automation — from architecture to production deployment.</p>
+        <p class="eyebrow eyebrow--mono">// categories</p>
+        <h2>Pick your platform.</h2>
+        <p class="lead">APK, IPA, jailbreak utilities, and Windows EXE tools — free direct downloads.</p>
       </div>
 
       <div class="service-list" data-stagger>
         {
-          services.map((s) => (
-            <a href="/services" class="service-item" data-stagger-item>
-              <span class="service-item__num">{s.num}</span>
+          categories.map((c) => (
+            <a href={`/tools?category=${c.id}`} class="service-item" data-stagger-item>
+              <span class="service-item__num">{c.num}</span>
               <div class="service-item__body">
-                <h3>{s.title}</h3>
-                <p>{s.blurb}</p>
+                <h3>{c.title}</h3>
+                <p>{c.blurb}</p>
                 <div class="service-tags">
-                  {s.tags.map((tag) => <span class="service-tag">{tag}</span>)}
+                  {c.tags.map((tag) => <span class="service-tag">{tag}</span>)}
                 </div>
               </div>
               <span class="service-item__arrow" aria-hidden="true">↗</span>
@@ -67,7 +70,7 @@ const featuredWork = projects.slice(0, 3);
   <section class="section section--engineering">
     <div class="container">
       <div class="section-head reveal">
-        <p class="eyebrow eyebrow--mono">// process</p>
+        <p class="eyebrow eyebrow--mono">// how it works</p>
         <h2>{engineering.headline}</h2>
         <p class="lead">{engineering.lead}</p>
       </div>
@@ -100,27 +103,21 @@ const featuredWork = projects.slice(0, 3);
   <section class="section section--work">
     <div class="container-wide">
       <div class="section-head reveal">
-        <p class="eyebrow eyebrow--mono">// portfolio</p>
-        <h2>Products we've shipped.</h2>
-        <p class="lead">Platforms, dashboards, and web applications built for real businesses.</p>
+        <p class="eyebrow eyebrow--mono">// featured</p>
+        <h2>Featured tools.</h2>
+        <p class="lead">Popular downloads across Android, iOS, jailbreak, and Windows.</p>
       </div>
 
       <div class="work-grid">
         {
-          featuredWork.map((item) => (
-            <a
-              href={item.url ?? '/work'}
-              class="work-card"
-              {...(item.url?.startsWith('http')
-                ? { target: '_blank', rel: 'noopener noreferrer' }
-                : {})}
-            >
+          featuredTools.map((item) => (
+            <a href={`/tools/${item.slug}`} class="work-card">
               <div
                 class:list={['work-card__media', item.image && 'work-card__media--has-image']}
                 style={item.image ? `background-image: url(${item.image})` : undefined}
               />
               <div class="work-card__meta">
-                <p class="eyebrow">{item.tag}</p>
+                <p class="eyebrow">{categoryLabel(item.category)} · v{item.version}</p>
                 <h3>{item.title}</h3>
               </div>
             </a>
@@ -129,15 +126,15 @@ const featuredWork = projects.slice(0, 3);
       </div>
 
       <div class="section-cta reveal">
-        <a href="/work" class="btn btn--ghost" data-magnetic>See all projects</a>
+        <a href="/tools" class="btn btn--ghost" data-magnetic>See all tools</a>
       </div>
     </div>
   </section>
 
   <section class="cta-band">
     <div class="cta-band__inner container reveal">
-      <h2>Ready to build?</h2>
-      <a href="/contact" class="btn btn--solid" data-magnetic>Talk to our team</a>
+      <h2>Need a tool or support?</h2>
+      <a href="/contact" class="btn btn--solid" data-magnetic>Contact us</a>
     </div>
   </section>
 </BaseLayout>

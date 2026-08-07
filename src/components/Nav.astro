@@ -2,9 +2,7 @@
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 const links = [
-  { href: '/services', label: 'Services' },
-  { href: '/work', label: 'Work' },
-  { href: '/kim', label: 'KIM' },
+  { href: '/tools', label: 'Tools' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -28,14 +26,17 @@ const links = [
           links.map((link) => (
             <a
               href={link.href}
-              class:list={['nav__link', { 'is-active': pathname === link.href }]}
+              class:list={[
+                'nav__link',
+                { 'is-active': pathname === link.href || (link.href === '/tools' && pathname.startsWith('/tools')) },
+              ]}
             >
               {link.label}
             </a>
           ))
         }
       </div>
-      <a href="/contact" class="nav__cta btn btn--solid">Start a project</a>
+      <a href="/tools" class="nav__cta btn btn--solid">Browse tools</a>
     </nav>
   </div>
 </header>

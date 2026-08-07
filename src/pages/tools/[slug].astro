@@ -1,0 +1,432 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { categoryLabel, getToolBySlug, site, tools } from '../../data/site';
+
+export function getStaticPaths() {
+  return tools.map((tool) => ({
+    params: { slug: tool.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const tool = getToolBySlug(slug!);
+
+if (!tool) {
+  return Astro.redirect('/tools');
+}
+
+const hasDownload = Boolean(tool.downloadUrl);
+const features = tool.features ?? [];
+const installSteps =
+  tool.installSteps ??
+  [
+    {
+      step: '01',
+      title: 'Download the file',
+      text: 'Save the package from this page to your device or computer.',
+    },
+    {
+      step: '02',
+      title: 'Allow the install',
+      text: 'Follow your platform prompts to trust the source or run the installer.',
+    },
+    {
+      step: '03',
+      title: 'Open and use',
+      text: 'Launch the tool and complete any first-run setup.',
+    },
+  ];
+
+const metaBits = [
+  `v${tool.version}`,
+  categoryLabel(tool.category),
+  tool.size,
+  tool.platform,
+].filter(Boolean);
+---
+
+<BaseLayout
+  title={`${tool.title} — ${categoryLabel(tool.category)}`}
+  description={`${tool.summary} Free download from ${site.name}.`}
+>
+  <header class="page-hero kim-hero" data-page-hero>
+    <div class="container kim-hero__grid">
+      <div>
+        <p class="eyebrow eyebrow--mono">// {tool.category}</p>
+        <h1>{tool.title}</h1>
+        <p class="kim-hero__subtitle">{categoryLabel(tool.category)} · {tool.platform}</p>
+        <p class="lead">{tool.summary}</p>
+        <div class="btn-group kim-hero__cta">
+          {
+            hasDownload ? (
+              <a href="#install" class="btn btn--solid" data-magnetic>
+                Download
+              </a>
+            ) : (
+              <span class="btn btn--solid btn--disabled" aria-disabled="true">Coming soon</span>
+            )
+          }
+          <a href="/tools" class="btn btn--ghost" data-magnetic>All tools</a>
+        </div>
+        <p class="kim-meta">{metaBits.join(' · ')}</p>
+        {
+          tool.tags.length > 0 && (
+            <div class="service-tags tool-tags">
+              {tool.tags.map((tag) => (
+                <span class="service-tag">{tag}</span>
+              ))}
+            </div>
+          )
+        }
+      </div>
+      {
+        tool.image && (
+          <div class="kim-hero__icon-wrap reveal">
+            <img
+              src={tool.image}
+              alt={`${tool.title} icon`}
+              class="kim-hero__icon"
+              width="180"
+              height="180"
+            />
+          </div>
+        )
+      }
+    </div>
+  </header>
+
+  {
+    features.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <div class="section-head reveal">
+            <p class="eyebrow eyebrow--mono">// features</p>
+            <h2>What you get.</h2>
+            <p class="lead">Key capabilities of {tool.title}.</p>
+          </div>
+          <article class="kim-feature-card kim-feature-card--solo reveal">
+            <ul>
+              {features.map((f) => (
+                <li>{f}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+      </section>
+    )
+  }
+
+  <section id="install" class="section kim-install">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow eyebrow--mono">// install</p>
+        <h2>How to install.</h2>
+        <p class="lead">
+          {
+            hasDownload
+              ? `Follow these steps after downloading ${tool.title}.`
+              : `${tool.title} is listed in the catalog — the download file will appear here when ready.`
+          }
+        </p>
+      </div>
+      <ol class="kim-steps" data-stagger>
+        {
+          installSteps.map((s) => (
+            <li class="kim-step" data-stagger-item>
+              <span class="kim-step__index" aria-hidden="true">
+                {s.step}
+              </span>
+              <div class="kim-step__body">
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="kim-download-row reveal">
+        {
+          hasDownload ? (
+            <>
+              <a href={tool.downloadUrl} class="btn btn--solid" download data-magnetic>
+                Download {tool.title} v{tool.version}
+              </a>
+              <p class="kim-meta">
+                {[tool.size, tool.platform, categoryLabel(tool.category)].filter(Boolean).join(' · ')}
+              </p>
+            </>
+          ) : (
+            <>
+              <span class="btn btn--solid btn--disabled" aria-disabled="true">
+                Download coming soon
+              </span>
+              <p class="kim-meta">
+                <a href="/contact">Request notify</a> when this tool is available.
+              </p>
+            </>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="cta-band__inner container reveal">
+      <h2>Need help with {tool.title}?</h2>
+      <a href="/contact" class="btn btn--solid" data-magnetic>Get support</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .kim-hero__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .kim-hero__grid:has(> :only-child) {
+    grid-template-columns: 1fr;
+  }
+
+  .kim-hero__subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--fg-muted);
+    margin: -0.35rem 0 1.25rem;
+  }
+
+  .kim-hero__cta {
+    margin-top: 1.75rem;
+  }
+
+  .kim-meta {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--fg-dim);
+  }
+
+  .kim-meta a {
+    color: var(--fg-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .tool-tags {
+    margin-top: 1rem;
+  }
+
+  .btn--disabled {
+    opacity: 0.45;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  .kim-hero__icon-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  .kim-hero__icon {
+    width: min(180px, 42vw);
+    height: auto;
+    border-radius: 1.5rem;
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+  }
+
+  .kim-feature-card {
+    border: 1px solid var(--line);
+    background: var(--bg-elevated);
+    padding: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .kim-feature-card--solo {
+    max-width: 40rem;
+  }
+
+  .kim-feature-card li {
+    position: relative;
+    padding-left: 1.1rem;
+    color: var(--fg-muted);
+    font-size: 0.95rem;
+  }
+
+  .kim-feature-card li + li {
+    margin-top: 0.65rem;
+  }
+
+  .kim-feature-card li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 0.35rem;
+    height: 0.35rem;
+    background: var(--fg);
+  }
+
+  .kim-install {
+    padding-top: 0;
+  }
+
+  .kim-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .kim-steps::before {
+    content: '';
+    position: absolute;
+    top: 1.15rem;
+    left: calc(16.666% + 0.75rem);
+    right: calc(16.666% + 0.75rem);
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--line-strong) 12%,
+      var(--line-strong) 88%,
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  .kim-step {
+    position: relative;
+    padding: 0 clamp(1rem, 2.5vw, 1.75rem) 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .kim-step:first-child {
+    padding-left: 0;
+  }
+
+  .kim-step:last-child {
+    padding-right: 0;
+  }
+
+  .kim-step__index {
+    position: relative;
+    z-index: 1;
+    align-self: flex-start;
+    display: inline-grid;
+    place-items: center;
+    min-width: 2.35rem;
+    height: 2.35rem;
+    padding: 0 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--fg);
+    background: var(--bg);
+    border: 1px solid var(--line-strong);
+  }
+
+  .kim-step__body h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    letter-spacing: -0.03em;
+    line-height: 1.25;
+    margin-bottom: 0.7rem;
+  }
+
+  .kim-step__body p {
+    color: var(--fg-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    max-width: 22rem;
+  }
+
+  .kim-download-row {
+    margin-top: 2.75rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .kim-hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .kim-hero__icon-wrap {
+      order: -1;
+      justify-content: flex-start;
+    }
+
+    .kim-hero__icon {
+      width: min(140px, 38vw);
+    }
+
+    .kim-steps {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding-left: 1.15rem;
+    }
+
+    .kim-steps::before {
+      top: 0.4rem;
+      bottom: 0.4rem;
+      left: 0;
+      right: auto;
+      width: 1px;
+      height: auto;
+      background: var(--line-strong);
+    }
+
+    .kim-step {
+      padding: 0 0 1.75rem 1.5rem;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .kim-step:last-child {
+      padding-bottom: 0;
+    }
+
+    .kim-step__index {
+      flex-shrink: 0;
+      margin-left: -2.35rem;
+    }
+
+    .kim-step__body p {
+      max-width: none;
+    }
+
+    .kim-download-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.85rem;
+    }
+
+    .kim-download-row .btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .kim-hero__cta {
+      width: 100%;
+    }
+
+    .kim-hero__cta .btn {
+      width: 100%;
+    }
+  }
+</style>

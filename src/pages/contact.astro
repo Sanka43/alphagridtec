@@ -4,21 +4,23 @@ import CustomSelect from '../components/CustomSelect.astro';
 import { site } from '../data/site';
 
 const serviceOptions = [
-  'Web Development',
-  'Software Solutions',
-  'Branding',
-  'Digital Marketing',
-  'UI / UX Design',
-  'Automation',
-  'Full agency engagement',
+  'APK tools',
+  'IPA tools',
+  'Jailbreak tools',
+  'Windows tools',
+  'Request a tool',
+  'Support',
 ];
 ---
 
-<BaseLayout title="Contact" description="Contact Alphagrid Technology — start a project or ask about web, software, branding, and marketing.">
+<BaseLayout
+  title="Contact"
+  description="Contact Alphagrid Technology — request a tool, ask about APK, IPA, jailbreak, or Windows downloads, or get support."
+>
   <header class="page-hero" data-page-hero>
     <div class="container">
       <p class="eyebrow eyebrow--mono">// contact</p>
-      <h1>Let's build your software.</h1>
+      <h1>Request a tool or get support.</h1>
       <p class="lead">Share a few details. We'll reply with next steps — usually within one business day.</p>
     </div>
   </header>
@@ -91,8 +93,8 @@ const serviceOptions = [
         </div>
         <CustomSelect id="service" name="service" label="Interest" options={serviceOptions} />
         <div class="field">
-          <label for="message">Project details</label>
-          <textarea id="message" name="message" required placeholder="Goals, timeline, budget range…"></textarea>
+          <label for="message">Details</label>
+          <textarea id="message" name="message" required placeholder="Which tool, platform, or issue…"></textarea>
         </div>
         <button type="submit" class="btn btn--solid" data-magnetic>Send message</button>
         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>

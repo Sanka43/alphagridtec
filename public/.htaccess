@@ -4,6 +4,11 @@ Options -Indexes
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Legacy agency routes → tools catalog
+  RewriteRule ^services/?$ /tools [R=301,L]
+  RewriteRule ^work/?$ /tools [R=301,L]
+  RewriteRule ^kim/?$ /tools/kim [R=301,L]
+
   # Prefer extensionless / directory URLs
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
